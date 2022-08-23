@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var script = document.createElement("script");
+
+        script.type = "text/javascript";
+
+        script.addEventListener("load", function(event) {
+            const meeting = new VideoSDKMeeting();
+
+            const config = {
+                name: "Ibrahim Lukman (Tenn Whiterose)",
+                apiKey: "6665cfa0-1e06-4f5d-8936-62bce24d394d",
+                meetingId: "TELEHEALTH_DEMO",
+                redirectOnLeave: "https://www.videosdk.live/",
+                micEnabled: true,
+                webcamEnabled: true,
+                participantCanToggleSelfWebcam: true,
+                participantCanToggleSelfMic: true,
+                joinScreen: {
+                    visible: true, // Show the join screen ?
+                    title: "Tele Health Quick Start", // Meeting title
+                    meetingUrl: window.location.href, // Meeting joining url
+                },
+            };
+
+            meeting.init(config);
+
+        });
+        script.src = "https://sdk.videosdk.live/rtc-js-prebuilt/0.3.1/rtc-js-prebuilt.js";
+        document.getElementsByTagName("head")[0].appendChild(script);
+
+
+        const config = {
+            // ...
+            recording: {
+                autoStart: true, // auto start recording on participant joined
+                enabled: true,
+                webhookUrl: "https://www.videosdk.live/callback",
+                awsDirPath: `/meeting-recordings/${meetingId}/`, // automatically save recording in this s3 path
+                layout: {
+                    type: "SIDEBAR", // "SPOTLIGHT" | "SIDEBAR" | "GRID"
+                    priority: "PIN", // "SPEAKER" | "PIN",
+                    gridSize: 3,
+                },
+            },
+
+            permissions: {
+                // ...
+                toggleRecording: true, // Can toggle meeting recording
+            },
+            // ...
+
+            // To enabled chat
+            chatEnabled: true,
+        };
+    </script>
+</body>
+
+</html>
